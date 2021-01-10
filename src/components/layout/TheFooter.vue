@@ -1,10 +1,10 @@
 <template>
-CONTACT ?
+FOOTER
 </template>
 
 <script>
 export default {
-  name: "ContactDoctor"
+  name: "TheFooter"
 }
 </script>
 
