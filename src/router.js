@@ -14,6 +14,7 @@ const router = createRouter({
     {
       path: '/doctor/:id',
       component: DoctorDetail,
+      props: true, // прокидываем id как props
       children: [
         {path: 'contact', component: ContactDoctor},
       ]
