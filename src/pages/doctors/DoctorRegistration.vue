@@ -2,7 +2,7 @@
 <section>
   <v-card>
   <h2>Зарегестрировать врача.</h2>
-  <doctor-form></doctor-form>
+  <doctor-form @form-data="saveFormData"></doctor-form>
   </v-card>
 </section>
 </template>
@@ -11,7 +11,14 @@
 import DoctorForm from "@/components/doctors/DoctorForm";
 export default {
   name: "DoctorRegistration",
-  components: {DoctorForm}
+  components: {DoctorForm},
+  methods: {
+    saveFormData(formData) {
+      this.$store.dispatch('doctors/registerDoctor', formData)
+      this.$router.replace('/doctors')
+    }
+  }
+
 }
 </script>
 

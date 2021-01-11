@@ -18,7 +18,7 @@
     <v-card>
       {{ description }}
       <div>
-        <v-badge v-for="area in areas" :key="area" :title="area" :type="frontend"></v-badge>
+        <v-badge v-for="area in areas" :key="area" :title="area" type="frontend"></v-badge>
       </div>
     </v-card>
   </section>

@@ -44,6 +44,7 @@
 <script>
 export default {
   name: "DoctorForm",
+  emits: ['form-data'],
   data() {
     return {
       firstName: '',
@@ -65,6 +66,7 @@ export default {
       }
 
       console.log(formData)
+      this.$emit('form-data', formData)
 
     }
   }
