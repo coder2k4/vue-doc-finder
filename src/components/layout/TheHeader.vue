@@ -2,11 +2,11 @@
   <header>
     <nav>
       <h1>
-        <router-link to="/">Find a doctor</router-link>
+        <router-link to="/">Найти врача</router-link>
       </h1>
       <ul>
-        <li><router-link to="/doctors">All Doctors</router-link></li>
-        <li><router-link to="/requests">Requests</router-link></li>
+        <li><router-link to="/doctors">Все врачи</router-link></li>
+        <li><router-link to="/requests">Запросы</router-link></li>
       </ul>
     </nav>
   </header>

@@ -71,7 +71,7 @@ export default {
         isValid: true
       },
       areas: {
-        val: [''],
+        val: [],
         isValid: true
       },
       formIsValid: true
