@@ -65,6 +65,9 @@ export default {
     setFilter(updatedFilters) {
       this.activeFilters = updatedFilters
     }
+  },
+  created() {
+    this.$store.dispatch('doctors/fetchDoctors')
   }
 }
 </script>
