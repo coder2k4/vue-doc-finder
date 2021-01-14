@@ -2,11 +2,13 @@ import getters from "@/store/modules/doctors/getters";
 import mutations from "@/store/modules/doctors/mutations";
 import actions from "@/store/modules/doctors/actions";
 
+
 export default {
   namespaced: true,
   state() {
     return {
       doctors: [
+        /*
         {
           id: 'd1',
           firstName: 'Николай',
@@ -23,6 +25,7 @@ export default {
           description: 'Игорь Александрович Лемберг – врач в третьем поколении. Специализируется на комплексной реабилитации проблем полости рта, сложном протезировании на зубах и импланах, эстетической реконструкциии улыбки. Стаж работы – более 20 лет.',
           hourlyRate: 2800
         }
+        */
       ]
     }
   },

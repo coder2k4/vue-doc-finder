@@ -3,9 +3,14 @@
     <doctor-filter @change-filter="setFilter"></doctor-filter>
   </section>
   <section>
-    <v-card>
+    <v-modal :show="!!error"
+             title="Ошибка загрузки врачей" @close="clearError">
+      <p>{{ error }}</p>
+    </v-modal>
+    <v-spinner v-if="isLoading"></v-spinner>
+    <v-card v-else>
       <div class="controls">
-        <v-button mode="outline">Обновить</v-button>
+        <v-button mode="outline" @click="refreshDoctorsList">Обновить</v-button>
         <v-button to="/register" link>Зарегестрировать</v-button>
       </div>
       <ul v-if="hasDoctors">
@@ -33,6 +38,8 @@ export default {
   components: {DoctorFilter, DoctorItem},
   data() {
     return {
+      isLoading: true,
+      error: '',
       activeFilters: {
         opt1: true,
         opt2: true,
@@ -55,19 +62,37 @@ export default {
         }
         return false
       })
-
     },
     hasDoctors() {
       return this.$store.getters['doctors/hasDoctors']
-    }
+    },
   },
   methods: {
     setFilter(updatedFilters) {
       this.activeFilters = updatedFilters
+    },
+
+    async refreshDoctorsList() {
+      this.isLoading = true
+
+      // Обрабатываем ошибку
+      try {
+        await this.$store.dispatch('doctors/fetchDoctors')
+      } catch (e) {
+        this.error = e.message
+      }
+
+      this.isLoading = false
+    },
+
+
+    clearError() {
+      this.error = false
     }
   },
-  created() {
-    this.$store.dispatch('doctors/fetchDoctors')
+  async created() {
+    await this.refreshDoctorsList()
+    this.isLoading = false
   }
 }
 </script>

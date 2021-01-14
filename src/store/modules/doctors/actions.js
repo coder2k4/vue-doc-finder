@@ -20,7 +20,8 @@ export default {
     //const responseData = await response.json()
 
     if(!response.ok){
-      // error
+      // error Пробрасываем ошибку в компонент, если не удалось загрузить данные на сервер
+      throw new Error(response.message || "Fetch register doctor error!")
     }
 
     context.commit('registerDoctor', { ...data, id: userID})
@@ -35,6 +36,7 @@ export default {
 
     if(!response.ok){
       // error
+      throw new Error(response.message || "Fetch doctors list error!")
     }
 
     const doctors = []
