@@ -1,6 +1,5 @@
 <template>
   <section>
-
     <v-spinner v-if="isLoading"></v-spinner>
     <v-modal v-else-if="error" title="Ошибка загрузки" @close="clearError">{{ error }}</v-modal>
     <v-card v-else>

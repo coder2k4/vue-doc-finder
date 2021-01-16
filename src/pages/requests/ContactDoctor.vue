@@ -12,7 +12,6 @@
       <small v-if="!formIsValid" class="errors">Заполните все поля верно</small>
       <v-button>Отправить</v-button>
     </div>
-
   </form>
 </template>
 

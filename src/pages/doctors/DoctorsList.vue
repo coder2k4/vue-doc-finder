@@ -1,4 +1,5 @@
 <template>
+  <div>
   <section>
     <doctor-filter @change-filter="setFilter"></doctor-filter>
   </section>
@@ -26,6 +27,7 @@
       <h3 v-else>К сожалению нет ни одного доктора</h3>
     </v-card>
   </section>
+  </div>
 </template>
 
 <script>

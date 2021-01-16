@@ -1,10 +1,10 @@
 <template>
-<section>
-  <v-card>
-  <h2>Зарегестрировать врача.</h2>
-  <doctor-form @form-data="saveFormData"></doctor-form>
-  </v-card>
-</section>
+  <section>
+    <v-card>
+    <h2>Зарегестрировать врача.</h2>
+    <doctor-form @form-data="saveFormData"></doctor-form>
+    </v-card>
+  </section>
 </template>
 
 <script>

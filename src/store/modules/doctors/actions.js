@@ -35,7 +35,7 @@ export default {
     if(!payload.forceRefresh && !context.getters.shouldUpdate)
       return
 
-    const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/doctors.jso`)
+    const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/doctors.json`)
     const responseData = await response.json()
 
     if(!response.ok){
