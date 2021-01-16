@@ -1,16 +1,56 @@
 export default {
 
-  addRequest(context, payload) {
+  async addRequest(context, payload) {
 
     const newRequest = {
-      id: (new Date().getTime()).toString(36),
-      doctorId: payload.doctorId,
       email: payload.email,
       message: payload.message
     }
 
-    context.commit('addRequest', newRequest)
+    const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/requests/${payload.doctorId}.json`, {
+      method: 'POST',
+      body: JSON.stringify(newRequest)
+    });
 
+
+    if (!response.ok) {
+      // error
+      throw new Error(response.message || 'Ошибка при отправке запроса')
+    }
+
+    // Получаем ID вновь созданного запроса
+    const responseData = await response.json()
+
+    context.commit('addRequest', {...newRequest, id: responseData.name, doctorId: payload.doctorId,})
+
+  },
+
+  async fetchRequests(context) {
+    const doctorId = context.rootGetters.userId
+    const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/requests/${doctorId}.json`);
+
+
+    if (!response.ok) {
+      // error
+      throw new Error(response.message || 'Ошибка при загрузке данных о запросах')
+    }
+
+    const responseData = await response.json()
+
+    const requests = [];
+
+    for (const key in responseData) {
+      const request = {
+        id: key,
+        doctorId,
+        email: responseData[key].email,
+        message: responseData[key].message
+      }
+      requests.push(request)
+    }
+
+    context.commit('setRequest', requests)
 
   }
+
 }

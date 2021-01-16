@@ -29,9 +29,13 @@ export default {
   },
 
 
-  async fetchDoctors(context) {
+  async fetchDoctors(context, payload) {
 
-    const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/doctors.json`)
+    // Нужно ли нам обновляться данные и запрашивать с сервера
+    if(!payload.forceRefresh && !context.getters.shouldUpdate)
+      return
+
+    const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/doctors.jso`)
     const responseData = await response.json()
 
     if(!response.ok){
@@ -54,5 +58,6 @@ export default {
     }
 
     context.commit('setDoctors', doctors)
+    context.commit('setLastTimeUpdate')
   }
 }

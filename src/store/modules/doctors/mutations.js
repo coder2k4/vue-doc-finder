@@ -5,6 +5,12 @@ export default {
 
   setDoctors(state, payload) {
     state.doctors = payload
-  }
+  },
+
+  setLastTimeUpdate(state) {
+    state.lastTimeUpdateDoctorsList = new Date().getTime()
+  },
+
+
 
 }

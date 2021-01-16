@@ -10,7 +10,7 @@
     <v-spinner v-if="isLoading"></v-spinner>
     <v-card v-else>
       <div class="controls">
-        <v-button mode="outline" @click="refreshDoctorsList">Обновить</v-button>
+        <v-button mode="outline" @click="refreshDoctorsList('force')">Обновить</v-button>
         <v-button to="/register" link>Зарегестрировать</v-button>
       </div>
       <ul v-if="hasDoctors">
@@ -72,12 +72,18 @@ export default {
       this.activeFilters = updatedFilters
     },
 
-    async refreshDoctorsList() {
+    async refreshDoctorsList(force) {
+
+      const payload = {forceRefresh: false};
+
+      if (force === 'force')
+        payload.forceRefresh = true
+
       this.isLoading = true
 
       // Обрабатываем ошибку
       try {
-        await this.$store.dispatch('doctors/fetchDoctors')
+        await this.$store.dispatch('doctors/fetchDoctors', payload)
       } catch (e) {
         this.error = e.message
       }
