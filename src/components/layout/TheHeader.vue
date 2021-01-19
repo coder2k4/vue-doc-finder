@@ -6,7 +6,9 @@
       </h1>
       <ul>
         <li><router-link to="/doctors">Все врачи</router-link></li>
-        <li><router-link to="/requests">Запросы</router-link></li>
+        <li v-if="!isAuth"><router-link to="/auth">Войти/Зарегестрироваться</router-link></li>
+        <li v-else><router-link to="/requests">Запросы</router-link></li>
+        <li v-if="isAuth"><v-button @click="logOut">Выйти</v-button></li>
       </ul>
     </nav>
   </header>
@@ -14,7 +16,18 @@
 
 <script>
 export default {
-  name: "TheHeader"
+  name: "TheHeader",
+  computed: {
+    isAuth() {
+      return this.$store.getters['auth/isAuthenticated']
+    }
+  },
+  methods: {
+    logOut () {
+      //this.$store.commit('auth/logOut')
+      this.$store.dispatch('auth/logOut')
+    }
+  }
 }
 </script>
 

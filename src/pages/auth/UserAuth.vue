@@ -1,20 +1,31 @@
 <template>
-  <v-card>
-    <form @submit.prevent="submitForm">
-      <div class="form-control">
-        <label for="email">E-Mail</label>
-        <input type="email" id="email" v-model.trim="email"/>
-      </div>
-      <div class="form-control">
-        <label for="password">Пароль</label>
-        <input type="password" id="password" v-model.trim="password"/>
-      </div>
+  <div>
+    <v-modal :show="!!error" title="Непредвиденная ошибка авторизации" @close="errorClose">
+      <p>{{ error }}</p>
+    </v-modal>
 
-      <p v-if="!formIsValid">Пожалуйста введите корректный еmail и пароль</p>
-      <v-button>{{ submitButtonCaption }}</v-button>
-      <v-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</v-button>
-    </form>
-  </v-card>
+    <v-modal fixed :show="isLoading" title="Аутентификация...">
+      <v-spinner></v-spinner>
+    </v-modal>
+
+    <v-card>
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <label for="email">E-Mail</label>
+          <input type="email" id="email" v-model.trim="email"/>
+        </div>
+        <div class="form-control">
+          <label for="password">Пароль</label>
+          <input type="password" id="password" v-model.trim="password"/>
+        </div>
+
+        <p v-if="!formIsValid">Пожалуйста введите корректный еmail и пароль</p>
+        <v-button>{{ submitButtonCaption }}</v-button>
+        <v-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</v-button>
+      </form>
+    </v-card>
+
+  </div>
 </template>
 
 <script>
@@ -25,10 +36,16 @@ export default {
       email: '',
       password: '',
       formIsValid: true,
-      mode: 'login'
+      mode: 'login',
+      error: null,
+      isLoading: false
     }
   },
   computed: {
+
+    /**
+     * Меняем название кнопки submit
+     */
     submitButtonCaption() {
       if (this.mode === 'login') {
         return 'Войти'
@@ -36,16 +53,33 @@ export default {
         return 'Зарегестрироваться'
       }
     },
+    /**
+     * Смена названия кнопки - смены режимов
+     * @returns {string}
+     */
     switchModeButtonCaption() {
       if (this.mode === 'login') {
-        return 'Зарегестрироваться'
+        return 'Перейти к регистрации'
       } else {
-        return 'Войти'
+        return 'Авторизоваться'
       }
     }
   },
   methods: {
-    submitForm() {
+
+
+    /**
+     * Очищаем ошибку при нажатии кнопки закрыть в модальном окне
+     */
+    errorClose() {
+      this.error = null
+    },
+
+    /**
+     * Обработка формы
+     * @returns {Promise<void>}
+     */
+    async submitForm() {
       this.formIsValid = true;
 
       if (this.email === '' || !this.email.includes('@') || this.password.length < 6) {
@@ -53,16 +87,33 @@ export default {
         return;
       }
 
-      if (this.mode === 'login') {
-        // ...
-      } else {
-        this.$store.dispatch('auth/singUp', {
-          email: this.email,
-          password: this.password,
-        });
+      this.isLoading = true
+      const payloadData = {
+        email: this.email,
+        password: this.password,
       }
+
+      try {
+        if (this.mode === 'login') {
+          await this.$store.dispatch('auth/login', payloadData)
+        } else {
+          await this.$store.dispatch('auth/singUp', payloadData);
+        }
+        // Получаем query параметр из строки, и производим переход по его значению
+        const redirectUrl = this.$route.query.doc
+        await this.$router.replace('/' + redirectUrl ?? '')
+      } catch (e) {
+        this.error = e.message
+      }
+
+      this.isLoading = false
+
+
     },
 
+    /**
+     * Мена режима регистрации/авторизации
+     */
     switchAuthMode() {
       if (this.mode === 'login') {
         this.mode = 'signup'

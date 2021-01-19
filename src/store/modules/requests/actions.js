@@ -26,16 +26,18 @@ export default {
   },
 
   async fetchRequests(context) {
-    const doctorId = context.rootGetters.userId
-    const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/requests/${doctorId}.json`);
-
+    const doctorId = context.rootGetters['auth/userId']
+    const token = context.rootGetters['auth/token']
+    const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/requests/${doctorId}.json?auth=${token}`);
+    const responseData = await response.json()
 
     if (!response.ok) {
       // error
-      throw new Error(response.message || 'Ошибка при загрузке данных о запросах')
+      console.log(responseData)
+      throw new Error('Ошибка при загрузке данных о запросах. ' + responseData.error)
     }
 
-    const responseData = await response.json()
+
 
     const requests = [];
 

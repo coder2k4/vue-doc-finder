@@ -1,6 +1,33 @@
 export default {
 
-    login() {
+    /**
+     *
+     * @param context
+     * @param { string } payload.email
+     * @param { string } payload.password
+     * @returns {Promise<void>}
+     */
+    async login(context, payload) {
+
+        const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCNqResOznuTQqK7NmeU9P-tkFce8tjDcQ', {
+            method: 'POST',
+            body: JSON.stringify({
+                ...payload,
+                returnSecureToken: true
+            })
+        })
+        const responseData = await response.json()
+
+        if (!response.ok) {
+            console.log(responseData)
+            throw new Error('Ошибка входа. ' + responseData.error.message)
+        }
+
+        context.commit('setUser', {
+            token: responseData.idToken,
+            userId: responseData.localId,
+            tokenExpiration: responseData.expiresIn
+        });
     },
 
 
@@ -26,17 +53,29 @@ export default {
 
         const responseData = await response.json()
 
-        if(!response.ok) {
-            console.log(responseData)
-            throw new Error(responseData.message || 'Не могу зарегестрировать нового пользователя!')
+        if (!response.ok) {
+            //console.log(responseData)
+            throw new Error('Не могу зарегестрировать нового пользователя! ' + responseData.error.message)
         }
 
-        console.log(responseData)
+        context.commit('setUser', {
+            userId: responseData.userId,
+            tokenExpiration: responseData.token,
+            token: responseData.tokenExpiration,
+        })
+    },
+
+
+    /**
+     * Обнуляем авторизацию
+     * @param context
+     */
+    logOut(context) {
 
         context.commit('setUser', {
-            userId : responseData.userId,
-            tokenExpiration : responseData.token,
-            token : responseData.tokenExpiration,
+            token: null,
+            userId: null,
+            tokenExpiration: null,
         })
-    }
+    },
 }

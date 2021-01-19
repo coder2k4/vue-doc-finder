@@ -1,7 +1,7 @@
 <template>
   <section>
     <v-spinner v-if="isLoading"></v-spinner>
-    <v-modal v-else-if="error" title="Ошибка загрузки" @close="clearError">{{ error }}</v-modal>
+    <v-modal v-else-if="error" :show="!!error" title="Ошибка загрузки" @close="clearError">{{ error }}</v-modal>
     <v-card v-else>
       <header>
         <h2>Все запросы</h2>

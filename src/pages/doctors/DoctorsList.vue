@@ -12,7 +12,8 @@
     <v-card v-else>
       <div class="controls">
         <v-button mode="outline" @click="refreshDoctorsList('force')">Обновить</v-button>
-        <v-button to="/register" link>Зарегестрировать</v-button>
+        <v-button v-if="isAuth" to="/register" link>Зарегестрировать врача</v-button>
+        <v-button v-if="!isAuth" to="/auth?doc=register" link>Зарегестрироваться как врач</v-button>
       </div>
       <ul v-if="hasDoctors">
         <doctor-item v-for="doctor in filteredDoctors"
@@ -50,6 +51,9 @@ export default {
     }
   },
   computed: {
+    isAuth(){
+      return this.$store.getters['auth/isAuthenticated']
+    },
     filteredDoctors() {
       const doctors = this.$store.getters['doctors/doctors']
       return doctors.filter(doc => {
