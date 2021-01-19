@@ -1,7 +1,7 @@
 export default {
     async registerDoctor(context, formData) {
 
-        const userID = context.rootGetters.userId
+        const userID = context.rootGetters['auth/userId']
 
         const data = {
             //id: context.rootGetters.userId,

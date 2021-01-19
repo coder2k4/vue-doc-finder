@@ -8,6 +8,7 @@
     </section>
     <section>
       <v-card>
+
         <header>
           <h2>Заинтересовались? Свяжитесь сейчас!</h2>
           <v-button link :to="contactLink">Связаться</v-button>
@@ -40,6 +41,7 @@ export default {
       return this.selectedDoctor.lastName + ' ' + this.selectedDoctor.firstName
     },
     contactLink() {
+      console.log(this.$router)
       return this.$route.path + '/contact'
     },
     areas() {

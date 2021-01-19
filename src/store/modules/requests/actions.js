@@ -31,9 +31,10 @@ export default {
     const response = await fetch(`https://vue-doctors-default-rtdb.firebaseio.com/requests/${doctorId}.json?auth=${token}`);
     const responseData = await response.json()
 
+    console.log(responseData)
+
     if (!response.ok) {
       // error
-      console.log(responseData)
       throw new Error('Ошибка при загрузке данных о запросах. ' + responseData.error)
     }
 
@@ -50,6 +51,8 @@ export default {
       }
       requests.push(request)
     }
+
+    console.log(requests)
 
     context.commit('setRequest', requests)
 

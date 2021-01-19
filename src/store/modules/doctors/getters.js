@@ -16,6 +16,10 @@ export default {
       return true
     }
     return (state.lastTimeUpdateDoctorsList - new Date().getTime()) / 1000 > 60;
+  },
+
+  isDoctor(state,getters,rootState, rootGetters) {
+    return state.doctors.some(doc => doc.id === rootGetters['auth/userId'])
   }
 
 }

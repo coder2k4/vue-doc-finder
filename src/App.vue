@@ -14,7 +14,21 @@ import TheFooter from "@/components/layout/TheFooter";
 
 export default {
   name: "App",
-  components: {TheFooter, TheHeader}
+  components: {TheFooter, TheHeader},
+  computed: {
+    needReloding() {
+      return this.$store.getters['auth/needToRelog']
+    }
+  },
+  watch: {
+    needRelogin(curValue, oldValue) {
+      if(curValue && curValue != oldValue)
+        this.$router.replace('/doctors')
+    }
+  },
+  created(){
+    this.$store.dispatch('auth/autoLogin') // проверяем наличие данных в localstorage
+  }
 }
 </script>
 

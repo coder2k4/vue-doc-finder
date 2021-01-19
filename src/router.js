@@ -52,6 +52,14 @@ router.beforeEach((to, from, next) => {
         next()
     }
 
+
+    // Проверка на истечение времени токена
+    if(store.getters['auth/needToRelog'])
+    {
+        store.dispatch('auth/logOut')
+        next('/auth')
+    }
+
 })
 
 

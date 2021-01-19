@@ -1,7 +1,7 @@
 export default {
 
   allRequests(state, _1, _2, rootGetters) {
-    const docId = rootGetters.userId
+    const docId = rootGetters['auth/userId']
     return state.requests.filter(req => req.doctorId === docId)
   },
 

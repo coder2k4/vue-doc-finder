@@ -53,6 +53,8 @@ export default {
         return 'Зарегестрироваться'
       }
     },
+
+
     /**
      * Смена названия кнопки - смены режимов
      * @returns {string}
@@ -74,6 +76,7 @@ export default {
     errorClose() {
       this.error = null
     },
+
 
     /**
      * Обработка формы
@@ -110,6 +113,7 @@ export default {
 
 
     },
+
 
     /**
      * Мена режима регистрации/авторизации
