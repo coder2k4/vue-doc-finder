@@ -101,7 +101,7 @@ export default {
         }
         // Получаем query параметр из строки, и производим переход по его значению
         const redirectUrl = this.$route.query.doc
-        await this.$router.replace('/' + redirectUrl ?? '')
+        await this.$router.replace('/' + (redirectUrl ? redirectUrl : ''))
       } catch (e) {
         this.error = e.message
       }
