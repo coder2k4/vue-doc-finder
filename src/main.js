@@ -1,13 +1,18 @@
-import {createApp} from 'vue';
+
+import {createApp , defineAsyncComponent} from 'vue';
 import router from "@/router";
 import App from "@/App";
 import store from "@/store";
 import VCard from "@/components/ui/VCard";
 import VButton from "@/components/ui/VButton";
 import VBadge from "@/components/ui/VBadge";
-import VSpinner from "@/components/ui/VSpinner";
-import VModal from "@/components/ui/VModal";
+// import VSpinner from "@/components/ui/VSpinner";
+// import VModal from "@/components/ui/VModal";
 
+
+// Ленивая загрузка компонентов
+const VModal = defineAsyncComponent(()=>import('@/components/ui/VModal'))
+const VSpinner = defineAsyncComponent(()=>import('@/components/ui/VSpinner'))
 
 const app = createApp(App)
 
